@@ -1,7 +1,6 @@
 #version 330 core
 
 #define NUMBER_OF_POINT_LIGHTS 4
-//Cantidad de luces. hasta 8 luces!
 
 struct Material
 {
@@ -10,7 +9,7 @@ struct Material
     float shininess;
 };
 
-struct DirLight //Luz direccional
+struct DirLight
 {
     vec3 direction;
     
@@ -19,12 +18,12 @@ struct DirLight //Luz direccional
     vec3 specular;
 };
 
-struct PointLight //Luz punual
+struct PointLight
 {
     vec3 position;
     
-    float constant; //Valor 1
-    float linear; 
+    float constant;
+    float linear;
     float quadratic;
     
     vec3 ambient;
@@ -83,7 +82,10 @@ void main( )
     // Spot light
     result += CalcSpotLight( spotLight, norm, FragPos, viewDir );
     
-    color = vec4( result, 1.0 );
+	
+    color = vec4( result,texture( material.diffuse, TexCoords).a );
+	  if(color.a < 0.1)
+        discard;
 }
 
 // Calculates the color when using a directional light.
@@ -103,9 +105,10 @@ vec3 CalcDirLight( DirLight light, vec3 normal, vec3 viewDir )
     vec3 diffuse = light.diffuse * diff * vec3( texture( material.diffuse, TexCoords ).rgb );
     vec3 specular = light.specular * spec * vec3( texture( material.specular, TexCoords ).rgb );
     
-	vec4 result= vec4(ambient + diffuse + specular,texture( material.diffuse, TexCoords).a) ;
+	/*vec4 result= vec4(ambient + diffuse + specular,texture( material.diffuse, TexCoords).a) ;
 	  if(result.a < 0.1)
-        discard;
+        discard;*/
+	     	vec3 result=ambient + diffuse + specular;
 
     return (result);
 }
@@ -135,9 +138,10 @@ vec3 CalcPointLight( PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir )
     diffuse *= attenuation;
     specular *= attenuation;
 
-   vec4 result= vec4(ambient + diffuse + specular,texture( material.diffuse, TexCoords).a) ;
+  /* vec4 result= vec4(ambient + diffuse + specular,texture( material.diffuse, TexCoords).a) ;
 	  if(result.a < 0.1)
-        discard;
+        discard;*/
+     	vec3 result=ambient + diffuse + specular;
 
     return (result);
     
@@ -173,9 +177,11 @@ vec3 CalcSpotLight( SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir )
     diffuse *= attenuation * intensity;
     specular *= attenuation * intensity;
 
-		vec4 result= vec4(ambient + diffuse + specular,texture( material.diffuse, TexCoords).a) ;
+	/*	vec4 result= vec4(ambient + diffuse + specular,texture( material.diffuse, TexCoords).a) ;
 	  if(result.a < 0.1)
-        discard;
+        discard;*/
+
+      	vec3 result=ambient + diffuse + specular;
 
     return (result);
     
