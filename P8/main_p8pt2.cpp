@@ -107,6 +107,8 @@ int main( )
     // Load models
     Model ourModel( (char *)"Models/sillon.obj");
     Model mesa_centro((char*)"Models/table.obj");
+    Model planta_mesa_centro((char*)"Models/planta.obj");
+    Model sofa((char*)"Models/sofa_sencillo.obj");
 
 
     // Set up vertex data (and buffer(s)) and attribute pointers
@@ -308,15 +310,14 @@ int main( )
         model = glm::scale(model, glm::vec3(4.0f, 4.0f, 6.0f));
         model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         //glBindVertexArray(0);
 
         //Tapete
         glBindTexture(GL_TEXTURE_2D, texture2); //Enlazar y alojar en texture2
         model = glm::mat4(1);
-        model = glm::translate(model, glm::vec3(-2.10f, 2.0f, 3.4f));
-        model = glm::scale(model, glm::vec3(4.0f, 4.0f, 6.0f));
+        model = glm::translate(model, glm::vec3(-0.8f, 0.01, 1.40f));
+        model = glm::scale(model, glm::vec3(2.35f, 2.35f, 3.5f));
         model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 
@@ -345,7 +346,7 @@ int main( )
         //glm::mat4 model(1);
         model = glm::mat4(1);
         model = glm::translate( model, glm::vec3( -2.10f, 0.0f, 3.4f ) ); // Translate it down a bit so it's at the center of the scene
-        model = glm::scale( model, glm::vec3(0.3f, 0.3f, 0.3f) );	// It's a bit too big for our scene, so scale it down
+        model = glm::scale( model, glm::vec3(0.25f, 0.25f, 0.25f) );	// It's a bit too big for our scene, so scale it down
 		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv( glGetUniformLocation( shader.Program, "model" ), 1, GL_FALSE, glm::value_ptr( model ) );
 	
@@ -359,6 +360,35 @@ int main( )
         glUniformMatrix4fv(glGetUniformLocation(shader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
 
         mesa_centro.Draw(shader);
+
+        //shader.Use();
+        //Planta esa central sala
+        model = glm::mat4(1);
+        model = glm::translate(model, glm::vec3(-2.4f, 0.3f, 2.10f)); // Translate it down a bit so it's at the center of the scene
+        model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));	// It's a bit too big for our scene, so scale it down
+        //model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        glUniformMatrix4fv(glGetUniformLocation(shader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+
+        planta_mesa_centro.Draw(shader);
+
+        //Sofa individual 1
+        model = glm::mat4(1);
+        model = glm::translate(model, glm::vec3(-1.4f, 0.0f, 2.5f)); // Translate it down a bit so it's at the center of the scene
+        model = glm::scale(model, glm::vec3(0.13f, 0.13f, 0.13f));	// It's a bit too big for our scene, so scale it down
+        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        glUniformMatrix4fv(glGetUniformLocation(shader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+
+
+        sofa.Draw(shader);
+
+        //Sofa individual 2
+        //model = glm::mat4(1);
+        model = glm::translate(model, glm::vec3(-10.0f, 0.0f, 0.0f)); // Translate it down a bit so it's at the center of the scene
+        //model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));	// It's a bit too big for our scene, so scale it down
+        model = glm::rotate(model, glm::radians(30.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        glUniformMatrix4fv(glGetUniformLocation(shader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+
+        sofa.Draw(shader);
 
         glBindVertexArray(0);
         
