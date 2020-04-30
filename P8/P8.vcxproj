@@ -151,11 +151,13 @@
     <ClInclude Include="stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Shaders\lighting.frag" />
+    <None Include="Shaders\lighting.vs" />
     <None Include="Shaders\modelLoading.frag" />
     <None Include="Shaders\modelLoading.vs" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main_p8pt2.cpp" />
+    <ClCompile Include="Main_prac8 - copia.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
