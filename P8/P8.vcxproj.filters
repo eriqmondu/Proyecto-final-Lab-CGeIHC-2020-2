@@ -50,7 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main_prac8 - copia.cpp">
-      <Filter>Archivos de origen</Filter>
+      <Filter>Archivos de recursos\Shaders</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
