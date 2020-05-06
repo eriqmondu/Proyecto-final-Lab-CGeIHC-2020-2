@@ -291,6 +291,18 @@ int main()
 	//Model BrazoIzq((char*)"Models/Personaje/brazoizq.obj");
 	//Model Cabeza((char*)"Models/Personaje/cabeza.obj");
 
+		// Load textures
+	vector<const GLchar*> faces;
+	faces.push_back("SkyBox/right.jpg");
+	faces.push_back("SkyBox/left.jpg");
+	faces.push_back("SkyBox/top.jpg");
+	faces.push_back("SkyBox/bottom.jpg");
+	faces.push_back("SkyBox/back.jpg");
+	faces.push_back("SkyBox/front.jpg");
+
+	GLuint cubemapTexture = TextureLoading::LoadCubemap(faces);
+
+
 	//Carga de texturas primitivas (esto iba antes de glEnable)
 	LoadTextures();
 
@@ -388,18 +400,21 @@ int main()
 
 	GLuint indices[] =
 	{  // Note that we start from 0!
+		//Indices para dibujar un plano 
 		0,1,3,
-		1,2,3,
+		1,2,3
 
-		0,1,2,3,
-		4,5,6,7,
-		8,9,10,11,
-		12,13,14,15,
-		16,17,18,19,
-		20,21,22,23,
-		24,25,26,27,
-		28,29,30,31,
-		32,33,34,35
+		//Indices para dibujar el Skybox
+		//0,1,2,3,
+		//4,5,
+		//,6,7,
+		//8,9,10,11,
+		//12,13,14,15,
+		//16,17,18,19,
+		//20,21,22,23,
+		//24,25,26,27,
+		//28,29,30,31,
+		//32,33,34,35
 
 	};
 
@@ -453,17 +468,6 @@ int main()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
-
-	// Load textures
-	vector<const GLchar*> faces;
-	faces.push_back("SkyBox/right.tga");
-	faces.push_back("SkyBox/left.tga");
-	faces.push_back("SkyBox/top.tga");
-	faces.push_back("SkyBox/bottom.tga");
-	faces.push_back("SkyBox/back.tga");
-	faces.push_back("SkyBox/front.tga");
-
-	GLuint cubemapTexture = TextureLoading::LoadCubemap(faces);
 
 
 	//glBindTexture(GL_TEXTURE_2D, 0);
@@ -999,18 +1003,18 @@ int main()
 		model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		// Draw the light object (using light's vertex attributes)
-		//glBindVertexArray(lightVAO);
-		glBindVertexArray(VAO);
+		glBindVertexArray(lightVAO);
+		//glBindVertexArray(VAO);
 
 		//Dibuja las luces puntuales
-		for (GLuint i = 1; i < 2; i++)
+		for (GLuint i = 1; i < 3; i++)
 		{
 			model = glm::mat4(1);
 			model = glm::translate(model, pointLightPositions[i]);
 			model = glm::scale(model, glm::vec3(0.05f)); // Make it a smaller cube
 			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-			//glDrawArrays(GL_TRIANGLES, 0, 3);
-			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+			glDrawArrays(GL_TRIANGLES, 0, 9);
+			//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 
 			printf("%f %f %f\n", pointLightPositions[1].x, pointLightPositions[1].y, pointLightPositions[1].z);
@@ -1071,7 +1075,7 @@ int main()
 		glBindVertexArray(skyboxVAO);
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
-		glDrawArrays(GL_TRIANGLES, 6, 42);
+		glDrawArrays(GL_TRIANGLES, 0, 36); //Dibujando desde skyboxVertices los 36 vértices
 		glBindVertexArray(0);
 		glDepthFunc(GL_LESS); // Set depth function back to default
 
