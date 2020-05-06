@@ -33,6 +33,9 @@
     <ClInclude Include="stb_image.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\modelLoading.frag">
@@ -45,6 +48,12 @@
       <Filter>Archivos de recursos\Shaders</Filter>
     </None>
     <None Include="Shaders\lighting.vs">
+      <Filter>Archivos de recursos\Shaders</Filter>
+    </None>
+    <None Include="Shaders\SkyBox.frag">
+      <Filter>Archivos de recursos\Shaders</Filter>
+    </None>
+    <None Include="Shaders\SkyBox.vs">
       <Filter>Archivos de recursos\Shaders</Filter>
     </None>
   </ItemGroup>
