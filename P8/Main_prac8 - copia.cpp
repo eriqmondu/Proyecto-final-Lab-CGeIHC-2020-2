@@ -65,6 +65,7 @@ glm::vec3 LightP1;
 
 // Variables para mover objetos de manera interactiva
 float movX, movY, movZ;
+float scaleX = 1.0f, scaleY = 1.0f, scaleZ = 1.0f;
 
 // Deltatime
 GLfloat deltaTime = 0.0f;	// Time between current frame and last frame
@@ -282,6 +283,7 @@ int main()
 	Model escaleras((char*)"Models/stairs/escaleras_eriq.obj");
 	Model escritorio((char*)"Models/Desk/desk.obj");
 	Model lampara((char*)"Models/Lampara/lampara.obj");
+	Model casa((char*)"Models/CJ_casa/CASADECJ_text.obj");
 
 	//Model BotaDer((char*)"Models/Personaje/bota.obj");
 	//Model PiernaDer((char*)"Models/Personaje/piernader.obj");
@@ -334,7 +336,7 @@ int main()
 	GLfloat vertices[] =
 	{
 		// Positions            // Normals              // Texture Coords
-		//Plano superior izquierdo
+		//Plano con origen en 0,0 y normal en Z
 		+0.0f, +0.0f, 0.0f,    0.0f, 0.0f, 1.0f,		0.0f,0.0f,
 		+1.0f, +0.0f, 0.0f,	   0.0f, 0.0f, 1.0f,		1.0f,0.0f,
 		+1.0f, +1.0f, 0.0f,    0.0f, 0.0f, 1.0f,		1.0f,1.0f,
@@ -348,7 +350,6 @@ int main()
 		+1.0f, +0.0f, 0.0f,	   0.0f, 0.0f, -1.0f,		1.0f,0.75f, //D
 		+1.0f, +1.0f, 0.0f,    0.0f, 0.0f, -1.0f,		1.0f,1.0f, //E
 		+0.0f, +1.0f, 0.0f,    0.0f, 0.0f, -1.0f,		0.75f, 1.0f, //F
-
 
 
 	};
@@ -513,9 +514,9 @@ int main()
 		// by using 'Uniform buffer objects', but that is something we discuss in the 'Advanced GLSL' tutorial.
 		// == ==========================
 		// Luz direccional (Sol)
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.direction"), 0.0f, 0.0f, 0.0f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.ambient"), 0.05f, 0.05f, 0.05f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.diffuse"), 0.2f, 0.2f, 0.2f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.direction"), 0.0f, 0.0f, -0.0f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.ambient"), 0.5f, 0.5f, 0.5f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.diffuse"), 0.7f, 0.7f, 0.7f);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.specular"), 0.2f, 0.2f, 0.2f);
 			
 		// Luz puntual (Foco)
@@ -973,16 +974,17 @@ int main()
 		//glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[1].specular"), 0.2f, 0.2f, 0.2f);
 		//glUniform1f(glGetUniformLocation(lightingShader.Program, "material.shininess"), 2.0f);
 
-		//model = glm::mat4(1);
-		//model = glm::translate(model, glm::vec3(movX, movY, movZ)); // Translate it down a bit so it's at the center of the scene
-		//model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));	// It's a bit too big for our scene, so scale it down
-		//model = glm::rotate(model, glm::radians(-60.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		//glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
 
-		//mujer.Draw(lightingShader);
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(movX, movY, movZ)); // Translate it down a bit so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(scaleX, scaleY, scaleZ));	// It's a bit too big for our scene, so scale it down
+		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
 
+		casa.Draw(lightingShader);
 
 		printf("X= %0.2f Y= %0.2f, Z= %0.2f\n", movX, movY, movZ);
+		printf("scX= %0.2f scY= %0.2f, scZ= %0.2f\n", scaleX, scaleY, scaleZ);
 
 
 
@@ -1013,7 +1015,7 @@ int main()
 			model = glm::translate(model, pointLightPositions[i]);
 			model = glm::scale(model, glm::vec3(0.05f)); // Make it a smaller cube
 			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-			glDrawArrays(GL_TRIANGLES, 0, 9);
+			glDrawArrays(GL_TRIANGLES, 0, 9); //Dibuja un plano
 			//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 
@@ -1061,6 +1063,14 @@ int main()
 		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
 
 		lampara.Draw(modelLoading);
+
+		//model = glm::mat4(1);
+		//model = glm::translate(model, glm::vec3(movX, movY, movZ)); // Translate it down a bit so it's at the center of the scene
+		//model = glm::scale(model, glm::vec3(scaleX, scaleY, scaleZ));	// It's a bit too big for our scene, so scale it down
+		//model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		//glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+
+		//casa.Draw(modelLoading);
 
 		glBindVertexArray(0);
 
@@ -1146,52 +1156,52 @@ void animacion()
 // Moves/alters the camera positions based on user input
 void DoMovement()
 {
-	if (keys[GLFW_KEY_1])
-	{
-		rot += 1;
-	}
+	//if (keys[GLFW_KEY_1])
+	//{
+	//	rot += 1;
+	//}
 
-	if (keys[GLFW_KEY_2])
-	{
-		if (rotRodIzq < 80.0f)
-			rotRodIzq += 1.0f;
+	//if (keys[GLFW_KEY_2])
+	//{
+	//	if (rotRodIzq < 80.0f)
+	//		rotRodIzq += 1.0f;
 
-	}
+	//}
 
-	if (keys[GLFW_KEY_3])
-	{
-		if (rotRodIzq > -45)
-			rotRodIzq -= 1.0f;
+	//if (keys[GLFW_KEY_3])
+	//{
+	//	if (rotRodIzq > -45)
+	//		rotRodIzq -= 1.0f;
 
-	}
+	//}
 
-	if (keys[GLFW_KEY_4])
-	{
-		if (rotRodDer < 80.0f)
-			rotRodDer += 1.0f;
+	//if (keys[GLFW_KEY_4])
+	//{
+	//	if (rotRodDer < 80.0f)
+	//		rotRodDer += 1.0f;
 
-	}
+	//}
 
-	if (keys[GLFW_KEY_5])
-	{
-		if (rotRodDer > -45)
-			rotRodDer -= 1.0f;
+	//if (keys[GLFW_KEY_5])
+	//{
+	//	if (rotRodDer > -45)
+	//		rotRodDer -= 1.0f;
 
-	}
+	//}
 
-	if (keys[GLFW_KEY_6])
-	{
-		if (rotBraDer < 80.0f)
-			rotBraDer += 1.0f;
+	//if (keys[GLFW_KEY_6])
+	//{
+	//	if (rotBraDer < 80.0f)
+	//		rotBraDer += 1.0f;
 
-	}
+	//}
 
-	if (keys[GLFW_KEY_7])
-	{
-		if (rotBraDer > -45)
-			rotBraDer -= 1.0f;
+	//if (keys[GLFW_KEY_7])
+	//{
+	//	if (rotBraDer > -45)
+	//		rotBraDer -= 1.0f;
 
-	}
+	//}
 
 
 
@@ -1273,28 +1283,40 @@ void DoMovement()
 	//Moviendo con teclas el objeto
 	if (keys[GLFW_KEY_J])
 	{
-		movX -= 0.025f;
+		movX -= 0.1f;
 	}
 	if (keys[GLFW_KEY_L])
 	{
-		movX += 0.025f;
+		movX += 0.1f;
 	}
 	if (keys[GLFW_KEY_I])
 	{
-		movY += 0.025f;
+		movY += 0.1f;
 	}
 	if (keys[GLFW_KEY_K])
 	{
-		movY -= 0.025f;
+		movY -= 0.1f;
 	}
 	if (keys[GLFW_KEY_U])
 	{
-		movZ -= 0.025f;
+		movZ -= 0.1;
 	}
 	if (keys[GLFW_KEY_O])
 	{
-		movZ += 0.025f;
+		movZ += 0.01;
 	}
+	if (keys[GLFW_KEY_1])
+		scaleX += 0.04f;
+	if (keys[GLFW_KEY_2])
+		scaleX -= 0.04f;
+	if (keys[GLFW_KEY_3])
+		scaleY += 0.04f;
+	if (keys[GLFW_KEY_4])
+		scaleY -= 0.04f;
+	if (keys[GLFW_KEY_5])
+		scaleZ += 0.04f;
+	if (keys[GLFW_KEY_6])
+		scaleZ -= 0.04f;
 }
 
 // Is called whenever a key is pressed/released via GLFW
