@@ -1,5 +1,5 @@
 # Blender MTL File: 'CASADECJ_doble.blend'
-# Material Count: 19
+# Material Count: 22
 
 newmtl Material
 Ns 225.000000
@@ -199,7 +199,7 @@ d 1.000000
 illum 2
 map_Kd tex\\pasto.jpg
 
-newmtl Material.033
+newmtl Material.034
 Ns 225.000000
 Ka 1.000000 1.000000 1.000000
 Kd 0.800000 0.800000 0.800000
@@ -208,4 +208,37 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd tex\\pared.jpg
+map_Kd tex\\__Color_A05_21.png
+
+newmtl Material.036
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd tex\\__Color_A05_1.png
+
+newmtl Material.037
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd tex\\Color_A05.png
+
+newmtl Material.038
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd tex\\__Color_A05_6.png

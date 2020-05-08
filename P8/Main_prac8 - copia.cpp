@@ -65,7 +65,7 @@ glm::vec3 LightP1;
 
 // Variables para mover objetos de manera interactiva
 float movX, movY, movZ;
-float scaleX = 1.0f, scaleY = 1.0f, scaleZ = 1.0f;
+float scaleX, scaleY, scaleZ;
 
 // Deltatime
 GLfloat deltaTime = 0.0f;	// Time between current frame and last frame
@@ -210,7 +210,7 @@ void LoadTextures() {
 	texture5 = generateTextures("images/cuadro2.jpg", 0);
 	texture6 = generateTextures("images/window_front.png", 1);
 	texture7 = generateTextures("images/cj_mom.jpg", 0);
-	texture8 = generateTextures("images/puerta_blanca.jpg", 0);
+	texture8 = generateTextures("images/puerta.png", 1);
 	texture9 = generateTextures("images/puerta_cafe.jpg", 0);
 	//stbi_set_flip_vertically_on_load(false);
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -283,7 +283,8 @@ int main()
 	Model escaleras((char*)"Models/stairs/escaleras_eriq.obj");
 	Model escritorio((char*)"Models/Desk/desk.obj");
 	Model lampara((char*)"Models/Lampara/lampara.obj");
-	Model casa((char*)"Models/CJ_casa/CASADECJ_text.obj");
+	Model casa_out((char*)"Models/CJ_casa/CASADECJ_outside.obj");
+	Model casa_in((char*)"Models/CJ_casa/CASADECJ_inside.obj");
 
 	//Model BotaDer((char*)"Models/Personaje/bota.obj");
 	//Model PiernaDer((char*)"Models/Personaje/piernader.obj");
@@ -295,12 +296,12 @@ int main()
 
 		// Load textures
 	vector<const GLchar*> faces;
-	faces.push_back("SkyBox/right.jpg");
-	faces.push_back("SkyBox/left.jpg");
-	faces.push_back("SkyBox/top.jpg");
-	faces.push_back("SkyBox/bottom.jpg");
-	faces.push_back("SkyBox/back.jpg");
-	faces.push_back("SkyBox/front.jpg");
+	faces.push_back("SkyBox/beach/posx.jpg");
+	faces.push_back("SkyBox/beach/negx.jpg");
+	faces.push_back("SkyBox/beach/posy.jpg");
+	faces.push_back("SkyBox/beach/negy.jpg");
+	faces.push_back("SkyBox/beach/posz.jpg");
+	faces.push_back("SkyBox/beach/negz.jpg");
 
 	GLuint cubemapTexture = TextureLoading::LoadCubemap(faces);
 
@@ -514,10 +515,12 @@ int main()
 		// by using 'Uniform buffer objects', but that is something we discuss in the 'Advanced GLSL' tutorial.
 		// == ==========================
 		// Luz direccional (Sol)
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.direction"), 0.0f, 0.0f, -0.0f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.ambient"), 0.5f, 0.5f, 0.5f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.diffuse"), 0.7f, 0.7f, 0.7f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.specular"), 0.2f, 0.2f, 0.2f);
+
+		//Esta luz sólo afectará al exterior, resetear
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.direction"), 0.0f, 0.0f, 0.0f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.ambient"),0.0f,0.0f,0.0f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.diffuse"), 0.937, 0.623, 0.341);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.specular"), 0.0f, 0.0f, 0.0f);
 			
 		// Luz puntual (Foco)
 		//glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].position"), pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
@@ -642,26 +645,29 @@ int main()
 
 
 		//Muro puerta (poner una pierta aqui)
+		//La puerta debe abrirse
+		glBindTexture(GL_TEXTURE_2D, texture8);
 		model = glm::translate(model, glm::vec3(1.0f, 0.0f, 0.0f));
 		temp = model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(-60.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		//glDrawArrays(GL_TRIANGLES, 4, 9);
 
-		//Puerta sin brillo
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].specular"), 0.2f, 0.2f, 0.2f);
-		glUniform1f(glGetUniformLocation(lightingShader.Program, "material.shininess"), 8.0f);
+		////Puerta sin brillo
+		//glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].specular"), 0.2f, 0.2f, 0.2f);
+		//glUniform1f(glGetUniformLocation(lightingShader.Program, "material.shininess"), 8.0f);
 
-		//Puerta blanca
-		glBindTexture(GL_TEXTURE_2D, texture8);
-		model = glm::translate(model, glm::vec3(0.12f, 0.0f, 0.001f));
-		model = glm::scale(model, glm::vec3(0.7f, 0.8f, 1.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		////Puerta blanca
+		//glBindTexture(GL_TEXTURE_2D, texture8);
+		//model = glm::translate(model, glm::vec3(0.12f, 0.0f, 0.001f));
+		//model = glm::scale(model, glm::vec3(0.7f, 0.8f, 1.0f));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-		//Regresa la luz a la normalidad
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].specular"), 0.5f, 0.5f, 0.5f);
-		glUniform1f(glGetUniformLocation(lightingShader.Program, "material.shininess"), 32.0f);
+		////Regresa la luz a la normalidad
+		//glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].specular"), 0.5f, 0.5f, 0.5f);
+		//glUniform1f(glGetUniformLocation(lightingShader.Program, "material.shininess"), 32.0f);
 
 		//glBindTexture(GL_TEXTURE_2D, texture2); //Carga textura muro de nuevo
 
@@ -974,14 +980,27 @@ int main()
 		//glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[1].specular"), 0.2f, 0.2f, 0.2f);
 		//glUniform1f(glGetUniformLocation(lightingShader.Program, "material.shininess"), 2.0f);
 
-
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(movX, movY, movZ)); // Translate it down a bit so it's at the center of the scene
-		model = glm::scale(model, glm::vec3(scaleX, scaleY, scaleZ));	// It's a bit too big for our scene, so scale it down
+		model = glm::translate(model, glm::vec3(2.77, -0.39, 3.05)); // Translate it down a bit so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(1.36f, 1.52f, 1.2f));	// It's a bit too big for our scene, so scale it down
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
 
-		casa.Draw(lightingShader);
+		casa_in.Draw(lightingShader);
+
+		//Ilumina el exterior con luz direccional (SOL)
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.direction"), 0.21, -0.15, 0.25);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.ambient"),0.2,0.2,0.2);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.diffuse"), 1.0, 0.6, 0.5);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.specular"), 0.3f, 0.3f, 0.3f);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(2.77, -0.39, 3.05)); // Translate it down a bit so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(1.36f, 1.52f, 1.2f));	// It's a bit too big for our scene, so scale it down
+		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+
+		casa_out.Draw(lightingShader);
 
 		printf("X= %0.2f Y= %0.2f, Z= %0.2f\n", movX, movY, movZ);
 		printf("scX= %0.2f scY= %0.2f, scZ= %0.2f\n", scaleX, scaleY, scaleZ);
@@ -1283,23 +1302,23 @@ void DoMovement()
 	//Moviendo con teclas el objeto
 	if (keys[GLFW_KEY_J])
 	{
-		movX -= 0.1f;
+		movX -= 0.01f;
 	}
 	if (keys[GLFW_KEY_L])
 	{
-		movX += 0.1f;
+		movX += 0.01f;
 	}
 	if (keys[GLFW_KEY_I])
 	{
-		movY += 0.1f;
+		movY += 0.01f;
 	}
 	if (keys[GLFW_KEY_K])
 	{
-		movY -= 0.1f;
+		movY -= 0.01f;
 	}
 	if (keys[GLFW_KEY_U])
 	{
-		movZ -= 0.1;
+		movZ -= 0.01;
 	}
 	if (keys[GLFW_KEY_O])
 	{
