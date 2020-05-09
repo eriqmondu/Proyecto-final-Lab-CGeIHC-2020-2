@@ -1,0 +1,48 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# File Created: 24.04.2014 10:33:00
+
+newmtl body
+	Ns 37.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.8471 0.6706 0.3882
+	Kd 0.8471 0.6706 0.3882
+	Ks 0.3780 0.3780 0.3780
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\Public\Pixologic\GoZProjects\Default\PolySphere1_1_TXTR.tif
+	map_Kd C:\Users\Public\Pixologic\GoZProjects\Default\PolySphere1_1_TXTR.tif
+	map_bump -bm 0.3000 Map__16_Cellular.tga
+
+newmtl eyesetc
+	Ns 75.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.3882 0.4784 0.5608
+	Kd 0.3882 0.4784 0.5608
+	Ks 0.6840 0.6840 0.6840
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\Public\Pixologic\GoZProjects\Default\PolySphere1_1_TXTR.tif
+	map_Kd C:\Users\Public\Pixologic\GoZProjects\Default\PolySphere1_1_TXTR.tif
+	map_bump D:\-CCC- IMAGESstuff\Textures\3\Mats\Finishes.Flooring.Carpet.NeedlePunch.Tan.Bump.jpg
+	bump D:\-CCC- IMAGESstuff\Textures\3\Mats\Finishes.Flooring.Carpet.NeedlePunch.Tan.Bump.jpg
+
+newmtl pants
+	Ns 14.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.3882 0.4784 0.5608
+	Kd 0.3882 0.4784 0.5608
+	Ks 0.0540 0.0540 0.0540
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\Public\Pixologic\GoZProjects\Default\PolySphere1_1_TXTR.tif
+	map_Kd C:\Users\Public\Pixologic\GoZProjects\Default\PolySphere1_1_TXTR.tif
+	map_bump -bm 0.0600 Map__17_Marble.tga
