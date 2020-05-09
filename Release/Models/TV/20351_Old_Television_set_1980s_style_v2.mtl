@@ -1,0 +1,35 @@
+# Blender MTL File: 'None'
+# Material Count: 3
+
+newmtl Glass
+Ns 74.999997
+Ka 1.000000 1.000000 1.000000
+Kd 0.588000 0.588000 0.588000
+Ks 0.675000 0.675000 0.675000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd 20351_Old_Television_set,_1980's_style_diffuse_v1.jpg
+
+newmtl Metal
+Ns 58.999999
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.675000 0.675000 0.675000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd 20351_Old_Television_set,_1980's_style_diffuse_v1.jpg
+
+newmtl Wood
+Ns 54.000004
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.470000 0.470000 0.470000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd 20351_Old_Television_set,_1980's_style_diffuse_v1.jpg
