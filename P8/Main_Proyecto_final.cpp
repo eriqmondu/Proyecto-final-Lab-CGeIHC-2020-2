@@ -106,25 +106,7 @@ int st_rotPuerta = 0;
 #define MAX_FRAMES 18
 int i_max_steps = 20;
 int i_curr_steps = 0;
-//typedef struct _frame
-//{
-//	//Variables para GUARDAR Key Frames
-//	float posX;		//Variable para PosicionX
-//	float posY;		//Variable para PosicionY
-//	float posZ;		//Variable para PosicionZ
-//	float incX;		//Variable para IncrementoX
-//	float incY;		//Variable para IncrementoY
-//	float incZ;		//Variable para IncrementoZ
-//	float rotRodIzq;
-//	float rotRodDer;
-//	float rotInc;
-//	float rotInc2;
-//	float rotBraIzq;
-//	float rotBraDer;
-//	float rotInc3;
-//	float rotInc4;
-//
-//}FRAME;
+
 
 typedef struct _frame
 {
@@ -243,25 +225,6 @@ void saveAndLoadFrames(void)
 }
 
 
-/*void saveFrame(void)
-{
-
-
-	printf("frameindex %d\n", FrameIndex);
-
-	KeyFrame[FrameIndex].posX = posX;
-	KeyFrame[FrameIndex].posY = posY;
-	KeyFrame[FrameIndex].posZ = posZ;
-
-	KeyFrame[FrameIndex].rotRodIzq = rotRodIzq;
-	KeyFrame[FrameIndex].rotRodDer = rotRodDer;
-
-	KeyFrame[FrameIndex].rotBraIzq = rotBraIzq;
-	KeyFrame[FrameIndex].rotBraDer = rotBraDer;
-
-
-	FrameIndex++;
-}*/
 
 void resetElements(void)
 {
@@ -280,20 +243,6 @@ void interpolation(void)
 
 }
 
-//void interpolation(void)
-//{
-//
-//	KeyFrame[playIndex].incX = (KeyFrame[playIndex + 1].posX - KeyFrame[playIndex].posX) / i_max_steps;
-//	KeyFrame[playIndex].incY = (KeyFrame[playIndex + 1].posY - KeyFrame[playIndex].posY) / i_max_steps;
-//	KeyFrame[playIndex].incZ = (KeyFrame[playIndex + 1].posZ - KeyFrame[playIndex].posZ) / i_max_steps;
-//
-//	KeyFrame[playIndex].rotInc = (KeyFrame[playIndex + 1].rotRodIzq - KeyFrame[playIndex].rotRodIzq) / i_max_steps;
-//	KeyFrame[playIndex].rotInc2 = (KeyFrame[playIndex + 1].rotRodDer - KeyFrame[playIndex].rotRodDer) / i_max_steps;
-//
-//	KeyFrame[playIndex].rotInc3 = (KeyFrame[playIndex + 1].rotBraIzq - KeyFrame[playIndex].rotBraIzq) / i_max_steps;
-//	KeyFrame[playIndex].rotInc4 = (KeyFrame[playIndex + 1].rotBraDer - KeyFrame[playIndex].rotBraDer) / i_max_steps;
-//
-//}
 
 
 
@@ -374,7 +323,7 @@ int main()
 	glfwWindowHint(GLFW_SAMPLES, 4);
 
 	// Create a GLFWwindow object that we can use for GLFW's functions
-	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Proyecto final", nullptr, nullptr);
+	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Proyecto final de CGeIHC - CJ House, GTA San Andreas", nullptr, nullptr);
 
 	if (nullptr == window)
 	{
@@ -392,7 +341,7 @@ int main()
 	glfwSetCursorPosCallback(window, MouseCallback);
 
 	// GLFW Options
-	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	// Set this to true so GLEW knows to use a modern approach to retrieving function pointers and extensions
 	glewExperimental = GL_TRUE;
@@ -434,14 +383,6 @@ int main()
 	// Nave animada mediante Keyframes
 	Model nave((char*)"Models/Plane/nave.obj");
 
-	//Model BotaDer((char*)"Models/Personaje/bota.obj");
-	//Model PiernaDer((char*)"Models/Personaje/piernader.obj");
-	//Model PiernaIzq((char*)"Models/Personaje/piernaizq.obj");
-	//Model Torso((char*)"Models/Personaje/torso.obj");
-	//Model BrazoDer((char*)"Models/Personaje/brazoder.obj");
-	//Model BrazoIzq((char*)"Models/Personaje/brazoizq.obj");
-	//Model Cabeza((char*)"Models/Personaje/cabeza.obj");
-
 		// Load textures
 	vector<const GLchar*> faces;
 	faces.push_back("SkyBox/beach/posx.jpg");
@@ -460,26 +401,8 @@ int main()
 	// Build and compile our shader program
 
 
+
 	//Inicialización de KeyFrames
-
-	//for (int i = 0; i < MAX_FRAMES; i++)
-	//{
-	//	KeyFrame[i].posX = 0;
-	//	KeyFrame[i].incX = 0;
-	//	KeyFrame[i].incY = 0;
-	//	KeyFrame[i].incZ = 0;
-	//	KeyFrame[i].rotRodIzq = 0;
-	//	KeyFrame[i].rotRodDer = 0;
-	//	KeyFrame[i].rotInc = 0;
-	//	KeyFrame[i].rotInc2 = 0;
-
-	//	KeyFrame[i].rotBraIzq = 0;
-	//	KeyFrame[i].rotBraDer = 0;
-	//	KeyFrame[i].rotInc3 = 0;
-	//	KeyFrame[i].rotInc4 = 0;
-	//}
-
-		//Inicialización de KeyFrames
 	for (int i = 0; i < MAX_FRAMES; i++)
 	{
 		KeyFrame[i].posX = 0;
@@ -744,7 +667,7 @@ int main()
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "spotLight.direction"), 0.0f, -1.0f-5.18f, 1.97f+4.68); //Vector forward de la camara
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "spotLight.ambient"), 0, 0, 0);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "spotLight.diffuse"), LightP1.x * 0.984, LightP1.y * 0.905, LightP1.z * 0.376); //Anaranjado
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "spotLight.specular"), LightP1.x * 0.3f, LightP1.y * 0.3f, LightP1.z * 0.3f); //x2
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "spotLight.specular"), LightP1.x * 0.3f, LightP1.y * 0.3f, LightP1.z * 0.3f); 
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "spotLight.constant"), 0.6f); //intensidad
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "spotLight.linear"), 0.05f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "spotLight.quadratic"), 0.032f);
@@ -841,23 +764,6 @@ int main()
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		//glDrawArrays(GL_TRIANGLES, 4, 9);
-
-		////Puerta sin brillo
-		//glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].specular"), 0.2f, 0.2f, 0.2f);
-		//glUniform1f(glGetUniformLocation(lightingShader.Program, "material.shininess"), 8.0f);
-
-		////Puerta blanca
-		//glBindTexture(GL_TEXTURE_2D, texture8);
-		//model = glm::translate(model, glm::vec3(0.12f, 0.0f, 0.001f));
-		//model = glm::scale(model, glm::vec3(0.7f, 0.8f, 1.0f));
-		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
-		////Regresa la luz a la normalidad
-		//glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].specular"), 0.5f, 0.5f, 0.5f);
-		//glUniform1f(glGetUniformLocation(lightingShader.Program, "material.shininess"), 32.0f);
-
-		//glBindTexture(GL_TEXTURE_2D, texture2); //Carga textura muro de nuevo
 
 		//Suelo de madera frente a la puerta
 		//Realiza cambio de textura a madera
@@ -1190,7 +1096,7 @@ int main()
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[1].diffuse"), 0.0f, 0.0f, 0.0f);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[2].diffuse"), 0.0f, 0.0f, 0.0f);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.direction"), 0.21, -0.15, 0.25);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.ambient"),0.01,0.01,0.01);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.ambient"),0.1,0.1,0.1);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.diffuse"), 1.0, 0.6, 0.5);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.specular"), 0.0f, 0.0f, 0.0f);
 
@@ -1245,8 +1151,8 @@ int main()
 		casa_out.Draw(lightingShader);
 
 
-		printf("X= %0.2f Y= %0.2f, Z= %0.2f\n", movX, movY, movZ);
-		printf("scX= %0.2f scY= %0.2f, scZ= %0.2f\n", scaleX, scaleY, scaleZ);
+		//printf("X= %0.2f Y= %0.2f, Z= %0.2f\n", movX, movY, movZ);
+		//printf("scX= %0.2f scY= %0.2f, scZ= %0.2f\n", scaleX, scaleY, scaleZ);
 
 
 
@@ -1325,14 +1231,6 @@ int main()
 		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
 
 		lampara.Draw(modelLoading);
-
-		//model = glm::mat4(1);
-		//model = glm::translate(model, glm::vec3(movX, movY, movZ));  
-		//model = glm::scale(model, glm::vec3(scaleX, scaleY, scaleZ));	 
-		//model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		//glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
-
-		//casa.Draw(modelLoading);
 
 		glBindVertexArray(0);
 
@@ -1434,41 +1332,7 @@ void animacion()
 
 	}
 
-	//if (play)
-	//{
-	//	if (i_curr_steps >= i_max_steps) //end of animation between frames?
-	//	{
-	//		playIndex++;
-	//		if (playIndex > FrameIndex - 2)	//end of total animation?
-	//		{
-	//			printf("termina anim\n");
-	//			playIndex = 0;
-	//			play = false;
-	//		}
-	//		else //Next frame interpolations
-	//		{
-	//			i_curr_steps = 0; //Reset counter
-	//							  //Interpolation
-	//			interpolation();
-	//		}
-	//	}
-	//	else
-	//	{
-	//		//Draw animation
-	//		posX += KeyFrame[playIndex].incX;
-	//		posY += KeyFrame[playIndex].incY;
-	//		posZ += KeyFrame[playIndex].incZ;
-
-	//		rotRodIzq += KeyFrame[playIndex].rotInc;
-	//		rotRodDer += KeyFrame[playIndex].rotInc2;
-
-	//		rotBraIzq += KeyFrame[playIndex].rotInc3;
-	//		rotBraDer += KeyFrame[playIndex].rotInc4;
-
-	//		i_curr_steps++;
-	//	}
-
-	//}
+	
 }
 
 // Moves/alters the camera positions based on user input
@@ -1484,71 +1348,6 @@ void DoMovement()
 	{
 		rot -= 1;
 	}
-
-	//if (keys[GLFW_KEY_2])
-	//{
-	//	if (rotRodIzq < 80.0f)
-	//		rotRodIzq += 1.0f;
-
-	//}
-
-	//if (keys[GLFW_KEY_3])
-	//{
-	//	if (rotRodIzq > -45)
-	//		rotRodIzq -= 1.0f;
-
-	//}
-
-	//if (keys[GLFW_KEY_4])
-	//{
-	//	if (rotRodDer < 80.0f)
-	//		rotRodDer += 1.0f;
-
-	//}
-
-	//if (keys[GLFW_KEY_5])
-	//{
-	//	if (rotRodDer > -45)
-	//		rotRodDer -= 1.0f;
-
-	//}
-
-	//if (keys[GLFW_KEY_6])
-	//{
-	//	if (rotBraDer < 80.0f)
-	//		rotBraDer += 1.0f;
-
-	//}
-
-	//if (keys[GLFW_KEY_7])
-	//{
-	//	if (rotBraDer > -45)
-	//		rotBraDer -= 1.0f;
-
-	//}
-
-
-
-	//Mov Personaje
-	//if (keys[GLFW_KEY_H])
-	//{
-	//	posZ += 1;
-	//}
-
-	//if (keys[GLFW_KEY_Y])
-	//{
-	//	posZ -= 1;
-	//}
-
-	//if (keys[GLFW_KEY_G])
-	//{
-	//	posX -= 1;
-	//}
-
-	//if (keys[GLFW_KEY_J])
-	//{
-	//	posX += 1;
-	//}
 
 
 	// Camera controls
@@ -1666,15 +1465,6 @@ void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode
 			play = false;
 		}
 	}
-
-	//if (keys[GLFW_KEY_K])
-	//{
-	//	if (FrameIndex < MAX_FRAMES)
-	//	{
-	//		saveFrame();
-	//	}
-
-	//}
 
 	if (GLFW_KEY_ESCAPE == key && GLFW_PRESS == action)
 	{
